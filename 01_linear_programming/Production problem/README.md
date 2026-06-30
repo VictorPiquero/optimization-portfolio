@@ -1,63 +1,6 @@
 ## Mathematical formulation
 
-### Sets
-
-Let \(P\) be the set of hot tub models.
-
-\[
-P = \{\text{Aqua-Spa}, \text{Hydro-Lux}\}
-\]
-
-### Decision variables
-
-\[
-x_i = \text{number of units of model } i \text{ to produce}, \quad i \in P
-\]
-
-### Parameters
-
-| Parameter | Description |
-|----------|-------------|
-| \(p_i\) | Profit per unit of model \(i\) |
-| \(h_i\) | Labor hours required to produce one unit of model \(i\) |
-| \(t_i\) | Feet of tubing required to produce one unit of model \(i\) |
-| \(H\) | Total labor hours available |
-| \(T\) | Total feet of tubing available |
-| \(B\) | Total number of pumps available |
-
-### Objective function
-
-The objective is to maximize the total profit:
-
-\[
-\max \sum_{i \in P} p_i x_i
-\]
-
-### Constraints
-
-Labor capacity:
-
-\[
-\sum_{i \in P} h_i x_i \leq H
-\]
-
-Tubing capacity:
-
-\[
-\sum_{i \in P} t_i x_i \leq T
-\]
-
-Pump availability:
-
-\[
-\sum_{i \in P} x_i \leq B
-\]
-
-Variable domain:
-
-\[
-x_i \in \mathbb{Z}_{\geq 0}, \quad i \in P
-\]
+![Mathematical formulation](mat_model.jpg)
 
 ### Data
 
