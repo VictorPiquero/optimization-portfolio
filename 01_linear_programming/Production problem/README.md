@@ -1,21 +1,30 @@
+## Problem Description
+
+Blue Ridge Hot Tubs manufactures two hot tub models: **Aqua-Spa** and **Hydro-Lux**. Each product generates a different profit and requires different amounts of labor and fiberglass tubing during the manufacturing process. In addition, every hot tub requires one pump, and the company has a limited number of pumps available.
+
+The objective is to determine the optimal production quantities of each model in order to **maximize the total profit** while respecting the available labor hours, tubing, and pump capacities.
+
+## Data
+
+### Products
+
+| Product   | Profit ($/unit) | Labor (hours/unit) | Tubing (ft/unit) | Pumps |
+| --------- | --------------: | -----------------: | ---------------: | ----: |
+| Aqua-Spa  |             350 |                  9 |               12 |     1 |
+| Hydro-Lux |             300 |                  6 |               16 |     1 |
+
+### Available Resources
+
+| Resource               | Available |
+| ---------------------- | --------: |
+| Labor hours            |      1566 |
+| Fiberglass tubing (ft) |      2880 |
+| Pumps                  |       200 |
+
+
 ## Mathematical formulation
 
 ![Mathematical formulation](mat_model.jpg)
-
-### Data
-
-| Model | Profit | Labor hours | Tubing | Pumps |
-|------|-------:|------------:|-------:|------:|
-| Aqua-Spa | 350 | 9 | 12 | 1 |
-| Hydro-Lux | 300 | 6 | 16 | 1 |
-
-Available resources:
-
-| Resource | Availability |
-|----------|-------------:|
-| Labor hours | 1566 |
-| Tubing | 2880 |
-| Pumps | 200 |
 
 
 ## Results
