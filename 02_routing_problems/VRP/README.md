@@ -17,28 +17,6 @@ The purpose of this implementation is to understand the transition from the TSP 
 
 ---
 
-## Problem Definition
-
-Let:
-
-- \(V = \{0,1,\dots,n\}\) be the set of nodes.
-- \(N = \{1,\dots,n\}\) be the set of customers.
-- Node \(0\) represent the depot.
-- \(k\) be the number of vehicles.
-- \(c_{ij}\) be the cost of traveling from node \(i\) to node \(j\).
-
-The objective is to construct \(k\) routes such that:
-
-- Every route starts at the depot.
-- Every route returns to the depot.
-- Every customer is visited exactly once.
-- Subtours disconnected from the depot are not allowed.
-- The total routing cost is minimized.
-
-The vehicles are assumed to be **homogeneous**. Therefore, individual vehicles are not explicitly indexed in the decision variables.
-
----
-
 ## Mathematical Formulation
 
 The mathematical formulation used in this project is shown below.
@@ -47,170 +25,11 @@ The mathematical formulation used in this project is shown below.
   <img src="mat_model.jpg" width="750" alt="VRP Mathematical Formulation">
 </p>
 
-### Decision Variables
-
-A binary decision variable is defined for every possible directed arc between two different nodes:
-
-\[
-x_{ij} =
-\begin{cases}
-1 & \text{if the arc from node } i \text{ to node } j \text{ is used} \\
-0 & \text{otherwise}
-\end{cases}
-\]
-
-for:
-
-\[
-i,j\in V, \qquad i\neq j
-\]
-
-Since the vehicles are homogeneous, the model does not need to explicitly identify which vehicle travels through each arc.
-
----
-
-### Objective Function
-
-The objective is to minimize the total transportation cost:
-
-\[
-\min
-\sum_{i\in V}
-\sum_{\substack{j\in V\\j\neq i}}
-c_{ij}x_{ij}
-\]
-
----
-
-### Depot Constraints
-
-Exactly \(k\) routes must leave the depot:
-
-\[
-\sum_{j\in N}x_{0j}=k
-\]
-
-and exactly \(k\) routes must return to the depot:
-
-\[
-\sum_{i\in N}x_{i0}=k
-\]
-
-These constraints represent the use of \(k\) vehicles without explicitly assigning an index to each vehicle.
-
----
-
-### Customer Degree Constraints
-
-Each customer must have exactly one incoming arc:
-
-\[
-\sum_{\substack{i\in V\\i\neq j}}x_{ij}=1
-\qquad
-\forall j\in N
-\]
-
-and exactly one outgoing arc:
-
-\[
-\sum_{\substack{j\in V\\j\neq i}}x_{ij}=1
-\qquad
-\forall i\in N
-\]
-
-Together, these constraints ensure that every customer is visited exactly once.
-
----
-
-## Subtour Elimination
-
-The depot and customer degree constraints are not sufficient to guarantee valid vehicle routes.
-
-For example, a solution may contain valid routes connected to the depot together with cycles involving only customers:
-
-\[
-0\rightarrow1\rightarrow0
-\]
-
-\[
-0\rightarrow4\rightarrow0
-\]
-
-while simultaneously containing:
-
-\[
-2\rightarrow3\rightarrow2
-\]
-
-\[
-5\rightarrow6\rightarrow5
-\]
-
-Although every customer has exactly one incoming and one outgoing arc, the last two cycles are disconnected from the depot and therefore do not represent valid vehicle routes.
-
-These cycles are known as **subtours**.
-
-For a subset of customers \(S\subseteq N\), a subtour elimination constraint (SEC) can be expressed as:
-
-\[
-\sum_{\substack{i,j\in S\\i\neq j}}x_{ij}
-\leq |S|-1
-\]
-
-For example, for:
-
-\[
-S=\{2,3\}
-\]
-
-the corresponding constraint is:
-
-\[
-x_{23}+x_{32}\leq1
-\]
-
-Similarly, for:
-
-\[
-S=\{1,2,3\}
-\]
-
-the constraint becomes:
-
-\[
-x_{12}+x_{13}
-+x_{21}+x_{23}
-+x_{31}+x_{32}
-\leq2
-\]
-
-In the small example used in this project, violated subtour constraints are identified and added manually. This illustrates the principle behind iterative subtour elimination:
-
-1. Solve the optimization model.
-2. Identify disconnected subtours.
-3. Add the corresponding subtour elimination constraints.
-4. Solve the model again.
-5. Repeat until all routes are connected to the depot.
-
-For larger instances, this procedure should be automated through systematic constraint generation or callback-based approaches.
-
 ---
 
 ## Linear Relaxation
 
 Before solving the complete integer model, the linear relaxation is also considered.
-
-The original binary condition:
-
-\[
-x_{ij}\in\{0,1\}
-\]
-
-is replaced by:
-
-\[
-0\leq x_{ij}\leq1
-\]
 
 This allows the behavior of the LP relaxation to be studied before enforcing integrality.
 
@@ -240,36 +59,6 @@ The cost matrix is:
 | **5** | 4 | 9 | 9 | 9 | 2 | - | 2 |
 | **6** | 5 | 9 | 9 | 9 | 3 | 2 | - |
 
-The small size of the instance makes it possible to manually inspect the solution and identify disconnected subtours.
-
-For example, before adding the necessary subtour elimination constraints, solutions such as:
-
-\[
-0\rightarrow1\rightarrow0
-\]
-
-\[
-0\rightarrow4\rightarrow0
-\]
-
-\[
-2\rightarrow3\rightarrow2
-\]
-
-\[
-5\rightarrow6\rightarrow5
-\]
-
-may appear.
-
-After adding the corresponding SECs, new subtours may still appear. For example:
-
-\[
-1\rightarrow3\rightarrow2\rightarrow1
-\]
-
-This demonstrates why eliminating only a particular observed cycle is not sufficient in the general case and motivates the general SEC formulation.
-
 ---
 
 ## Implementation
@@ -280,19 +69,47 @@ The same mathematical model is implemented using two optimization environments.
 
 The lp_solve implementation uses the **XLI_MathProg** interface and GNU MathProg syntax.
 
-The implementation includes:
+Two models are provided:
 
-- Continuous LP relaxation.
-- Binary decision variables for the complete model.
-- Depot constraints.
-- Customer degree constraints.
-- Manual subtour elimination constraints.
+- `Relax_lpsolve.mod`: linear relaxation of the VRP.
+- `Subtours_lpsolve.mod`: integer formulation including manually added subtour elimination constraints.
 
 ### Gurobi
 
 The Gurobi implementation uses the **gurobipy** Python API.
 
-The implementation follows the same structure as the lp_solve model, allowing the results obtained with both solvers to be compared directly.
+Two equivalent implementations are provided:
+
+- `Relax_gurobi.py`: linear relaxation of the VRP.
+- `Subtours_gurobi.py`: integer formulation including manually added subtour elimination constraints.
+
+Using the same instance in both optimization environments allows the formulations and results to be compared directly.
+
+---
+
+## Subtour Elimination
+
+The depot and customer degree constraints alone do not guarantee that all customers belong to routes connected to the depot.
+
+For example, the model may generate valid routes connected to the depot together with cycles involving only customers. These disconnected cycles are known as **subtours**.
+
+For a subset of customers \(S\), a subtour elimination constraint can be expressed as:
+
+\[
+\sum_{\substack{i,j\in S\\i\neq j}} x_{ij} \leq |S|-1
+\]
+
+In the example considered in this project, subtours are identified after solving the initial model and the corresponding constraints are manually added.
+
+This procedure illustrates the principle of iterative subtour elimination:
+
+1. Solve the model.
+2. Identify disconnected subtours.
+3. Add the corresponding subtour elimination constraints.
+4. Solve the model again.
+5. Repeat until all customer routes are connected to the depot.
+
+For larger instances, subtour detection and constraint generation should be automated.
 
 ---
 
@@ -301,92 +118,21 @@ The implementation follows the same structure as the lp_solve model, allowing th
 ```text
 VRP/
 │
+├── mat_model.jpg
 ├── README.md
-│
-├── images/
-│   └── vrp_mathematical_model.png
-│
-├── lp_solve/
-│   └── vrp.mod
-│
-└── gurobi/
-    └── vrp.py
+├── Relax_gurobi.py
+├── Relax_lpsolve.mod
+├── Subtours_gurobi.py
+└── Subtours_lpsolve.mod
 ```
 
----
+### Files
 
-## From TSP to VRP
-
-The VRP extends the Traveling Salesman Problem by introducing multiple routes originating from a common depot.
-
-### TSP
-
-The TSP searches for a single tour:
-
-\[
-0\rightarrow \cdots \rightarrow0
-\]
-
-Every node belongs to the same route.
-
-### VRP
-
-The VRP allows \(k\) different routes:
-
-\[
-0\rightarrow \cdots \rightarrow0
-\]
-
-\[
-0\rightarrow \cdots \rightarrow0
-\]
-
-\[
-\vdots
-\]
-
-Each customer still has exactly one incoming and one outgoing arc, but the depot has \(k\) incoming and \(k\) outgoing arcs.
-
-This is the main structural difference between the TSP and the basic VRP formulation considered here.
-
----
-
-## From VRP to CVRP
-
-The VRP developed in this section does not yet consider vehicle capacities or customer demands.
-
-The next extension is the **Capacitated Vehicle Routing Problem (CVRP)**.
-
-For each customer \(i\), a demand \(q_i\) will be introduced, together with a vehicle capacity \(Q\).
-
-The routes will then have to satisfy:
-
-\[
-\text{total demand served by each route}\leq Q
-\]
-
-Therefore, the progression followed in this project is:
-
-\[
-\boxed{
-TSP
-\rightarrow
-VRP
-\rightarrow
-CVRP
-\rightarrow
-CVRPTW
-}
-\]
-
-where each problem introduces an additional layer of complexity:
-
-| Problem | Main feature |
-|---|---|
-| TSP | Single route |
-| VRP | Multiple routes and depot |
-| CVRP | Vehicle capacity and customer demand |
-| CVRPTW | Capacity and time windows |
+- `mat_model.jpg` — Mathematical formulation of the VRP.
+- `Relax_gurobi.py` — Linear relaxation implemented with Gurobi.
+- `Relax_lpsolve.mod` — Linear relaxation implemented with lp_solve/XLI_MathProg.
+- `Subtours_gurobi.py` — Integer VRP with subtour elimination constraints implemented with Gurobi.
+- `Subtours_lpsolve.mod` — Integer VRP with subtour elimination constraints implemented with lp_solve/XLI_MathProg.
 
 ---
 
