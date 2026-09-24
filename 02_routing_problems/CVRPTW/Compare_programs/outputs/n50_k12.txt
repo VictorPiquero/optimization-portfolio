@@ -1,0 +1,4 @@
+set_XLI: Successfully loaded 'C:\lp_solve\xli_MathProg.dll'
+Timeout
+CPU Time for Parsing input: 0.054s (0.054s total since program start)
+CPU Time for solving: 1800.01s (1800.06s total since program start)

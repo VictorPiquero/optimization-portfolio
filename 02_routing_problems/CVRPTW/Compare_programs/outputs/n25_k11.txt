@@ -1,0 +1,6 @@
+set_XLI: Successfully loaded 'C:\lp_solve\xli_MathProg.dll'
+Suboptimal solution
+
+Value of objective function: 2393.21524496
+CPU Time for Parsing input: 0.014s (0.014s total since program start)
+CPU Time for solving: 1800s (1800.02s total since program start)
