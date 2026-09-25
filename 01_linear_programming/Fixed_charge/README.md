@@ -34,9 +34,9 @@ while minimizing the **total annual cost**.
 
 Minimum required production:
 
-\[
-38,000 \text{ units/year}
-\]
+
+38,000 units/year
+
 
 ---
 
@@ -60,9 +60,9 @@ The complete mathematical formulation is shown below:
 
 The constraint
 
-\[
-y_i \leq C_i x_i
-\]
+
+y_i <= C_i x_i
+
 
 links the plant-opening and production decisions. If a plant is not built (\(x_i=0\)), its production is forced to zero.
 
@@ -95,9 +95,7 @@ This problem is a **Mixed-Integer Linear Programming (MILP)** problem because it
 
 The capacity constraint
 
-\[
-y_i \leq C_i x_i
-\]
+y_i <= C_i x_i
 
 acts as a **linking constraint** between the strategic decision of opening a plant and the operational decision of producing at that plant.
 

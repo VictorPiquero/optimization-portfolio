@@ -36,9 +36,9 @@ The goal is to progressively study different optimization problems, understand t
 
 | Project                          | Main Topics                               | Status |
 | -------------------------------- | ----------------------------------------- | :----: |
-| 01 - Linear Programming          | LP fundamentals and mathematical modeling |   🚧   |
+| 01 - Linear Programming          | LP fundamentals and mathematical modeling |   ✅   |
 | 02 - Routing Problems            | TSP, VRP, CVRP, CVRPTW                    |   🚧   |
-| 03 - Transportation & Assignment | Transportation and Assignment Problems    |    ⏳   |
+| 03 - Transportation & Assignment | Transportation and Assignment Problems    |    🚧   |
 | 04 - Packing Problems            | Knapsack and Bin Packing                  |    ⏳   |
 | 05 - Facility Location           | Facility Location Problems                |    ⏳   |
 | 06 - Covering Problems           | Set Covering Problems                     |    ⏳   |
