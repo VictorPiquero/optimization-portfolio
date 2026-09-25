@@ -34,20 +34,21 @@ The goal is to progressively study different optimization problems, understand t
 
 ## Repository Structure
 
-| Project                          | Main Topics                               | Status |
-| -------------------------------- | ----------------------------------------- | :----: |
-| 01 - Linear Programming          | LP fundamentals and mathematical modeling |   ✅   |
-| 02 - Routing Problems            | TSP, VRP, CVRP, CVRPTW                    |   🚧   |
-| 03 - Transportation & Assignment | Transportation and Assignment Problems    |    🚧   |
-| 04 - Packing Problems            | Knapsack and Bin Packing                  |    ⏳   |
-| 05 - Facility Location           | Facility Location Problems                |    ⏳   |
-| 06 - Covering Problems           | Set Covering Problems                     |    ⏳   |
+| Project | Main Topics | Status |
+|---------|-------------|:------:|
+| 01 - Linear Programming | LP and MILP fundamentals | ✅ |
+| 02 - Routing Problems | TSP, VRP, CVRP, CVRPTW | 🚧 |
+| 03 - Transportation & Assignment | Transportation and Assignment Problems | 🚧 |
+| 04 - Scheduling | Employee and Operations Scheduling | 🚧 |
+| 05 - Packing Problems | Knapsack and Bin Packing | ⏳ |
+| 06 - Facility Location | Facility Location Problems | ⏳ |
+| 07 - Covering Problems | Set Covering Problems | ⏳ |
 
 **Legend:**
 
-* 🚧 In progress
-* ⏳ Planned
-* ✅ Completed
+- 🚧 In progress
+- ⏳ Planned
+- ✅ Completed
 
 ---
 
