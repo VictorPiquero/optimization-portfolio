@@ -1,0 +1,7 @@
+customers;k_ref;fleet_factor;vehicles;runtime;objective;status
+10;4;+20%;5;0.916;1221.80638745;Optimal
+10;4;+50%;6;0.448;1326.21634175;Optimal
+15;5;+20%;6;50.175;1625.07203358;Optimal
+15;5;+50%;8;3.401;1755.13140481;Optimal
+20;6;+20%;8;1800.01;1964.603498;Suboptimal
+20;6;+50%;9;205.001;2027.48836779;Optimal

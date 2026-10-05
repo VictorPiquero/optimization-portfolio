@@ -16,7 +16,7 @@ fieldnames = [
     "status"
 ]
 
-with open("Results/results_test_vehicles.csv", "w", newline="") as file:
+with open("02_routing_problems\\CVRPTW\\Compare_programs\\Results\\results_test_vehicles_2.csv", "w", newline="") as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -31,17 +31,13 @@ with open("Results/results_test_vehicles.csv", "w", newline="") as file:
     all_latest_time,
     all_service_time,
     all_cost
-) = read_solomon_instance("instances\\C1_6_1.TXT")
+) = read_solomon_instance("02_routing_problems\\CVRPTW\\Compare_programs\\instances\\C1_6_1.TXT")
 
 
 customer_sizes = [
-    25,
-    50,
-    100,
-    200,
-    300,
-    400,
-    500
+    10,
+    15,
+    20,
 ]
 
 
@@ -133,6 +129,6 @@ for n in customer_sizes:
         "status": result["status"]
         }
 
-        with open("Results/results_test_vehicles.csv", "a", newline="") as file:
+        with open("02_routing_problems\\CVRPTW\\Compare_programs\\Results\\results_test_vehicles_2.csv", "a", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writerow(row)

@@ -20,7 +20,7 @@ ws.append([
     "status"
 ])
 
-wb.save("results_gurobi.xlsx")
+wb.save("02_routing_problems\\CVRPTW\\Compare_programs\\results_gurobi_2.xlsx")
 
 (
     all_nodes,
@@ -36,13 +36,9 @@ wb.save("results_gurobi.xlsx")
 
 # Feasible reference fleet obtained in preliminary experiments
 experiments = {
-    25: 7,
-    50: 10,
-    100: 17,
-    200: 31,
-    300: 38,
-    400: 49,
-    500: 56,
+    10: 4,
+    15: 5,
+    20: 6
 }
 
 
@@ -125,7 +121,7 @@ for n, k_ref in experiments.items():
             time_limit=1800
         )
 
-        wb = load_workbook("results_gurobi.xlsx")
+        wb = load_workbook("02_routing_problems\\CVRPTW\\Compare_programs\\results_gurobi_2.xlsx")
         ws = wb["Gurobi"]
 
         ws.append([
@@ -141,7 +137,7 @@ for n, k_ref in experiments.items():
             result["status"]
         ])
 
-        wb.save("results_gurobi.xlsx")
+        wb.save("02_routing_problems\\CVRPTW\\Compare_programs\\results_gurobi_2.xlsx")
         wb.close()
 
 

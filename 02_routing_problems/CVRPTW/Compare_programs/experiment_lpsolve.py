@@ -23,7 +23,7 @@ XLI = Path(r"C:\lp_solve\xli_MathProg.dll")
 OUTPUT_FOLDER = BASE_DIR / "outputs"
 OUTPUT_FOLDER.mkdir(exist_ok=True)
 
-CSV_FILE = BASE_DIR / "results_lpsolve.csv"
+CSV_FILE = BASE_DIR / "results_lpsolve_2.csv"
 
 
 # ============================================================
@@ -32,13 +32,9 @@ CSV_FILE = BASE_DIR / "results_lpsolve.csv"
 
 # Feasible reference fleet obtained in preliminary experiments
 experiments = {
-    25: 7,
-    50: 10,
-    100: 17,
-    200: 31,
-    300: 38,
-    400: 49,
-    500: 56,
+    10: 4,
+    15: 5,
+    20: 6
 }
 
 TIME_LIMIT = 1800

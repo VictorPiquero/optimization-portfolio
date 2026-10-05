@@ -64,8 +64,8 @@ def write_dat(filename, n, k, Q, M, nodes, customers,
     all_cost
 ) = read_solomon_instance("02_routing_problems\\CVRPTW\\Compare_programs\\instances\\C1_6_1.TXT")
 
-n = 100
-k = 100
+n = 20
+k = 7
 
 nodes = list(range(n + 1))
 customers = list(range(1, n + 1))
